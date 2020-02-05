@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+        <style type="text/css">  
+            #touch-zone,
+            #console {
+                position: absolute;
+                left: 0;
+                right: 0;
+                padding: 20px;
+            }
+            #touch-zone {
+                background: #888;
+                top: 0;
+                bottom: 50%;
+            }
+            #touch-zone span {
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                color: activecaption;
+                font-size: 20px;
+                display: block;
+                text-align: center;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 0;
+                height: 50px;
+                line-height: 50px;
+                margin-top: -25px;
+            }
+            #console {
+                border-top: 1px solid #aaa;
+                top: 50%;
+                bottom: 0;
+                font-family: cursive;
+                font-size: 12px;
+            }     
+            #console p {
+                margin-top: 0;
+                margin-bottom: 5px;
+            }   
+            #console p .time {
+                float: right;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 90%;
+                color: #888;
+            }
+        </style>
+        <script>
+            $(document).on("pagebeforecreate", function (event) {
+                alert("pagebeforecreate event fired - the page is about to be initialized. jQuery Mobile has not begun enhancing the page");
+            });
+            $(document).on("pagecreate", function (event) {
+                alert("pagecreate event fired - the page has been created, but enhancement is not complete");
+            });
+            //        $(document).on("pageinit",function(event){
+            //  alert("page init event fired!");
+            //});
+
+            $(document).on("pageloadfailed", function (event) {
+                alert("page load failed!");
+            });
+            $(document).on("pageremove", function (event) {
+                alert("page remove event fired!");
+            });
+
+
+
+        </script>
+        <!--<script src="http://lincweb.co.uk/labs/jquery-touch-events/demo/events.js"></script>-->
+        <script src="jQuery-events.js"></script>
+        <script>
+            $(function () {
+
+                $('#touch-zone').on('tapstart', function (e, touch) {
+                    console_log('tapstart', touch.offset);
+                })
+                        .on('tapend', function (e, touch) {
+                            console_log('tapend', touch.offset);
+                        })
+                        .on('tap', function (e, touches) {
+                            console_log('tap', touches[0].offset);
+                        })
+                        .on('singletap', function (e, touch) {
+                            console_log('singletap', touch.offset);
+                        })
+                        .on('taphold', function (e, touch) {
+                            console_log('taphold', touch.startOffset);
+                        })
+                        .on('doubletap', function (e) {
+                            console_log('doubletap', false);
+                        })
+                        .on('swipe', function (e) {
+                            console_log('swipe', false);
+                        })
+                        .on('swipeup', function (e) {
+                            console_log('swipeup', false);
+                        })
+                        .on('swipedown', function (e) {
+                            console_log('swipedown', false);
+                        })
+                        .on('swipeleft', function (e) {
+                            console_log('swipeleft', false);
+                        })
+                        .on('swiperight', function (e) {
+                            console_log('swiperight', false);
+                        })
+            });
+            function console_log(eventName, offset)
+            {
+                var $p = $('<p />');
+
+                if (offset !== false)
+                {
+                    $p.append('<span class="name">' + eventName + ' called (X: ' + offset.x + ', Y:' + offset.y + ')</span>');
+                } else
+                {
+                    $p.append('<span class="name">' + eventName + ' called</span>');
+                }
+
+                $p.append('<span class="time">' + get_time() + '</span>');
+
+                $('#no-data').hide();
+                $p.prependTo('#console');
+            }
+            function get_time()
+            {
+                var d = new Date(),
+                        h = d.getHours(),
+                        m = d.getMinutes(),
+                        s = d.getSeconds();
+
+                if (h < 10) {
+                    h = '0' + h;
+                }
+                if (m < 10) {
+                    m = '0' + m;
+                }
+                if (s < 10) {
+                    s = '0' + s;
+                }
+
+                return h + ':' + m + ':' + s;
+            }
+        </script>
+    </head>
+    <body>
+        <div id="touch-zone">
+            <span>Touch here</span>
+        </div>
+        <div id="console">
+            <p id="no-data">Start touching to send data to this console.</p>
+        </div>
+    </body>
+</html>
